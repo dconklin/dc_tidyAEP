@@ -15,15 +15,8 @@ Steps:
     4. Delete empty folders.
 */
 
-//@include DcHelper.js
 //@include ProjectFolder.js
 //@include ProjectData.js
-
-// Make a DC Helper object (for debugging.)
-// Remove this later?
-var helper = new DcHelper();
-helper.init();
-helper.clearEstkConsole();
 
 // Make a project data object. The pd object
 // handles almost the entirety of the script.
