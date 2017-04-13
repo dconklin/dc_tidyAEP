@@ -17,7 +17,7 @@ var ProjectData = function() {
 ProjectData.prototype.run = function() {
 
   this.filterProject();
-  $.writeln(this.projectItems.folders.join(", "));
+  $.writeln(this.projectItems.folders.join('\r\n'));
 
 };
 

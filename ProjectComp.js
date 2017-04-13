@@ -1,7 +1,7 @@
 var ProjectComp = function(cmp, dpth) {
 
   this.comp = cmp;
-  this.name = this.comp.name;
+  this.name = cmp.name;
   this.depth = dpth;
   this.contents = {};
   this.inUse = 1;

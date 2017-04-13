@@ -1,3 +1,4 @@
+﻿
 /**
  * var FolderMerger - Class to handle folder sorting, merging and consolidating.
  *
@@ -29,11 +30,11 @@ FolderMerger.prototype.run = function() {
  *
  */
 FolderMerger.prototype.makeFolderObjects = function() {
+  $.writeln(this.projectItems.folders.join(", "));
   for (var i = 0; i < this.projectItems.folders.length; i++) {
     var fldr = this.projectItems.folders[i];
-    if (fldr) {
-      this.folderObjects.push(new ProjectFolder(fldr, pd.getDepth(fldr)));
-    }
+    $.writeln('fldr: ' + fldr.name + ', i:' + i)
+    this.folderObjects.push(new ProjectFolder(fldr, pd.getDepth(fldr)));
   }
 };
 
