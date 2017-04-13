@@ -1,11 +1,9 @@
-
-
 /**
  * var FolderMerger - Class to handle folder sorting, merging and consolidating.
  *
  * @param  {Object} itms project items (from ProjectData object.)
  */
-var FolderMerger = function(itms){
+var FolderMerger = function(itms) {
   this.projectItems = itms;
   this.folderObjects = [];
 };
@@ -16,13 +14,12 @@ var FolderMerger = function(itms){
  * consolodating folders.
  *
  */
-FolderMerger.prototype.run = function(){
+FolderMerger.prototype.run = function() {
 
   this.clearEmptyFolders();
   this.makeFolderObjects();
   this.sortFolderObjects();
   this.mergeFolders();
-  this.clearEmptyFolders();
 
 };
 
@@ -34,7 +31,9 @@ FolderMerger.prototype.run = function(){
 FolderMerger.prototype.makeFolderObjects = function() {
   for (var i = 0; i < this.projectItems.folders.length; i++) {
     var fldr = this.projectItems.folders[i];
-    this.folderObjects.push(new ProjectFolder(fldr, pd.getDepth(fldr)));
+    if (fldr) {
+      this.folderObjects.push(new ProjectFolder(fldr, pd.getDepth(fldr)));
+    }
   }
 };
 
@@ -77,14 +76,14 @@ FolderMerger.prototype.sortFolderObjects = function() {
  */
 FolderMerger.prototype.copyContents = function(s, d, sd, dd) {
   if (s == d) {
-      return true;
+    return true;
   }
 
-  for (var i = s.numItems; i >= 1; i--){
+  for (var i = s.numItems; i >= 1; i--) {
 
     var itm = s.item(i);
 
-    if(itm.parentFolder != d){
+    if (itm.parentFolder != d) {
       itm.parentFolder = d;
     }
 
@@ -108,7 +107,8 @@ FolderMerger.prototype.mergeFolders = function() {
   for (var i = folderHolder.length - 1; i >= 0; i--) {
     for (var j = 0; j < i; j++) { // only check up to index i (since we're going backwards in the i loop and fwds in j loop).
       if (folderHolder[j].name == folderHolder[i].name) {
-        this.copyContents(folderHolder[i].folder, folderHolder[j].folder, folderHolder[i].depth, folderHolder[j].depth);
+        this.copyContents(folderHolder[i].folder, folderHolder[j].folder,
+          folderHolder[i].depth, folderHolder[j].depth);
         break;
       }
     }
@@ -121,9 +121,9 @@ FolderMerger.prototype.mergeFolders = function() {
  *
  */
 FolderMerger.prototype.clearEmptyFolders = function() {
-  for(var i = app.project.numItems; i >= 1; i--){
+  for (var i = app.project.numItems; i >= 1; i--) {
     var itm = app.project.item(i);
-    if(itm instanceof FolderItem && itm.numItems == 0){
+    if (itm instanceof FolderItem && itm.numItems == 0) {
       itm.remove();
     }
   }
