@@ -32,7 +32,7 @@ FolderMerger.prototype.makeFolderObjects = function() {
 
   var counter = 0;
   var itmCount = this.projectItems.folders.length;
-  var pb = new DcProgressBar(scriptData.scriptName,
+  var pb = new DcProgressBar(scriptData.name,
     'Making Folder Objects (Step 04)', 0, itmCount);
 
 
@@ -114,7 +114,7 @@ FolderMerger.prototype.mergeFolders = function() {
 
   var counter = 0;
   var itmCount = folderHolder.length;
-  var pb = new DcProgressBar(scriptData.scriptName,
+  var pb = new DcProgressBar(scriptData.name,
     'Making Folder Objects (Step 04)', 0, itmCount);
 
   // i = most nested folder working backwards.
@@ -144,7 +144,7 @@ FolderMerger.prototype.clearEmptyFolders = function() {
 
   var counter = 0;
   var itmCount = app.project.numItems;
-  var pb = new DcProgressBar(scriptData.scriptName,
+  var pb = new DcProgressBar(scriptData.name,
     'Cleaning Up Folders', 0, itmCount);
 
   for (var i = itmCount; i >= 1; i--) {

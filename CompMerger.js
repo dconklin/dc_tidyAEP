@@ -19,7 +19,7 @@ CompMerger.prototype.makeCompObjects = function() {
 
   var counter = 0;
   var itmCount = this.projectItems.comps.length;
-  var pb = new DcProgressBar(scriptData.scriptName,
+  var pb = new DcProgressBar(scriptData.name,
     'Making Comp Objects (Step 02)', 0, itmCount);
 
   for (var i = 0; i < itmCount; i++) {
@@ -58,7 +58,7 @@ CompMerger.prototype.consolidateComps = function() {
 
   var counter = 0;
   var itmCount = this.compObjects.length;
-  var pb = new DcProgressBar(scriptData.scriptName,
+  var pb = new DcProgressBar(scriptData.name,
     'Consolidating Comps (Step 03)', 0,
     itmCount);
 
@@ -88,7 +88,7 @@ CompMerger.prototype.removeUnusedComps = function() {
 
   var counter = 0;
   var itmCount = this.compObjects.length;
-  var pb = new DcProgressBar(scriptData.scriptName,
+  var pb = new DcProgressBar(scriptData.name,
     'Cleaning Up Consolidated Comps', 0, itmCount);
 
   for (var i = this.compObjects.length - 1; i >= 0; i--) {
