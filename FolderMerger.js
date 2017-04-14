@@ -29,9 +29,21 @@ FolderMerger.prototype.run = function() {
  *
  */
 FolderMerger.prototype.makeFolderObjects = function() {
-  for (var i = 0; i < this.projectItems.folders.length; i++) {
+
+  var counter = 0;
+  var itmCount = this.projectItems.folders.length;
+  var pb = new DcProgressBar(scriptData.scriptName,
+    'Making Folder Objects (Step 04)', 0, itmCount);
+
+
+  for (var i = 0; i < itmCount; i++) {
+    counter++;
     var fldr = this.projectItems.folders[i];
     this.folderObjects.push(new ProjectFolder(fldr, pd.getDepth(fldr)));
+
+    pb.setProgress(counter);
+    pb.setDescription('Making FolderObject for item ' + counter +
+      '. (Items remaining: ' + (itmCount - i) + ')');
   }
 };
 
@@ -100,16 +112,26 @@ FolderMerger.prototype.mergeFolders = function() {
 
   var folderHolder = this.folderObjects.slice(0);
 
+  var counter = 0;
+  var itmCount = folderHolder.length;
+  var pb = new DcProgressBar(scriptData.scriptName,
+    'Making Folder Objects (Step 04)', 0, itmCount);
+
   // i = most nested folder working backwards.
   // j = least nested folder working forewards.
-  for (var i = folderHolder.length - 1; i >= 0; i--) {
+  for (var i = itmCount - 1; i >= 0; i--) {
     for (var j = 0; j < i; j++) { // only check up to index i (since we're going backwards in the i loop and fwds in j loop).
+      counter++;
       if (folderHolder[j].name == folderHolder[i].name) {
         this.copyContents(folderHolder[i].folder, folderHolder[j].folder,
           folderHolder[i].depth, folderHolder[j].depth);
-        break;
+        pd.results.consolidatedFolders++;
       }
     }
+    pb.setProgress(counter);
+    pb.setDescription('Checking for duplicate folders. Current folder: ' +
+      folderHolder[j].name + '. ' + (itmCount - counter) +
+      ' folders remaining.');
   }
 
 };
@@ -119,10 +141,20 @@ FolderMerger.prototype.mergeFolders = function() {
  *
  */
 FolderMerger.prototype.clearEmptyFolders = function() {
-  for (var i = app.project.numItems; i >= 1; i--) {
+
+  var counter = 0;
+  var itmCount = app.project.numItems;
+  var pb = new DcProgressBar(scriptData.scriptName,
+    'Cleaning Up Folders', 0, itmCount);
+
+  for (var i = itmCount; i >= 1; i--) {
     var itm = app.project.item(i);
     if (itm instanceof FolderItem && itm.numItems == 0) {
       itm.remove();
+      pd.results.removedItems++;
     }
+    pb.setProgress(counter);
+    pb.setDescription('Checking for empty folders. ' + (itmCount - counter) +
+      ' folders remaining.');
   }
 };

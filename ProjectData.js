@@ -5,6 +5,12 @@ var ProjectData = function() {
     footage: [],
     solids: [],
     folders: []
+  };
+
+  this.results = {
+    removedItems: 0,
+    consolidatedComps: 0,
+    consolidatedFolders: 0
   }
 };
 
@@ -36,8 +42,11 @@ ProjectData.prototype.filterProject = function() {
 
 
   var counter = 0;
+  var itmCount = app.project.numItems;
+  var pb = new DcProgressBar('Test', 'Filtering Project (Step 01)', 0,
+    itmCount);
 
-  for (var i = app.project.numItems; i >= 1; i--) {
+  for (var i = itmCount; i >= 1; i--) {
 
     counter++;
 
@@ -54,9 +63,10 @@ ProjectData.prototype.filterProject = function() {
       }
     }
 
+    pb.setProgress(counter);
+    pb.setDescription(counter + ' of ' + itmCount + ' items filtered.');
+
   }
-
-
 
 };
 
@@ -88,3 +98,10 @@ ProjectData.prototype.getDepth = function(itm) {
   }
   return dpth;
 };
+
+ProjectData.prototype.getResults = function() {
+  var removed = 'Items Removed: ' + this.results.removedItems;
+  var fldrsCons = 'Folders Consolidated: ' + this.results.consolidatedFolders;
+  var compsCons = 'Comps Consolidated: ' + this.results.consolidatedComps;
+  return removed + '\r\n' + fldrsCons + '\r\n' + compsCons;
+}
