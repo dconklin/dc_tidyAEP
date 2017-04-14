@@ -17,7 +17,6 @@ var FolderMerger = function(itms) {
  */
 FolderMerger.prototype.run = function() {
 
-  this.clearEmptyFolders();
   this.makeFolderObjects();
   this.sortFolderObjects();
   this.mergeFolders();
@@ -30,10 +29,8 @@ FolderMerger.prototype.run = function() {
  *
  */
 FolderMerger.prototype.makeFolderObjects = function() {
-  $.writeln(this.projectItems.folders.join(", "));
   for (var i = 0; i < this.projectItems.folders.length; i++) {
     var fldr = this.projectItems.folders[i];
-    $.writeln('fldr: ' + fldr.name + ', i:' + i)
     this.folderObjects.push(new ProjectFolder(fldr, pd.getDepth(fldr)));
   }
 };

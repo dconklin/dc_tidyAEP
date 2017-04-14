@@ -17,7 +17,6 @@ var ProjectData = function() {
 ProjectData.prototype.run = function() {
 
   this.filterProject();
-  $.writeln(this.projectItems.folders.join('\r\n'));
 
 };
 
@@ -35,7 +34,13 @@ ProjectData.prototype.filterProject = function() {
   Have to loop backwards so things get indexed correctly !!
   */
 
+
+  var counter = 0;
+
   for (var i = app.project.numItems; i >= 1; i--) {
+
+    counter++;
+
     var itm = app.project.item(i);
     if (itm instanceof CompItem) {
       this.projectItems.comps.push(itm); // item is a comp.
@@ -48,7 +53,11 @@ ProjectData.prototype.filterProject = function() {
         this.projectItems.footage.push(itm); // item is footage.
       }
     }
+
   }
+
+
+
 };
 
 /**
