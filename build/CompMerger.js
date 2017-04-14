@@ -20,7 +20,8 @@ CompMerger.prototype.makeCompObjects = function() {
   var counter = 0;
   var itmCount = this.projectItems.comps.length;
   var pb = new DcProgressBar(scriptData.name,
-    'Making Comp Objects (Step 02)', 0, itmCount);
+    'Making Comp Objects (Step 02) - This may take several moments.', 0,
+    itmCount);
 
   for (var i = 0; i < itmCount; i++) {
     counter++;
