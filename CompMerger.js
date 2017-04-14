@@ -16,14 +16,26 @@ CompMerger.prototype.run = function() {
 };
 
 CompMerger.prototype.makeCompObjects = function() {
-  for (var i = 0; i < this.projectItems.comps.length; i++) {
+
+  var counter = 0;
+  var itmCount = this.projectItems.comps.length;
+  var pb = new DcProgressBar(scriptData.scriptName,
+    'Making Comp Objects (Step 02)', 0, itmCount);
+
+  for (var i = 0; i < itmCount; i++) {
+    counter++;
     var cmp = this.projectItems.comps[i];
     if (cmp) {
       var pc = new ProjectComp(cmp, pd.getDepth(cmp));
       pc.init();
       this.compObjects.push(pc);
     }
+    pb.setProgress(counter);
+    pb.setDescription('Making CompObject for item ' + pc.name + '. ' + (
+      itmCount - counter) + ' comps remaining.');
+
   }
+
 };
 
 CompMerger.prototype.replaceComp = function(replacee, replacer) {
@@ -43,8 +55,16 @@ CompMerger.prototype.replaceComp = function(replacee, replacer) {
 };
 
 CompMerger.prototype.consolidateComps = function() {
-  for (var i = 0; i < this.compObjects.length; i++) {
-    for (var j = this.compObjects.length - 1; j > i; j--) {
+
+  var counter = 0;
+  var itmCount = this.compObjects.length;
+  var pb = new DcProgressBar(scriptData.scriptName,
+    'Consolidating Comps (Step 03)', 0,
+    itmCount);
+
+  for (var i = 0; i < itmCount; i++) {
+    for (var j = itmCount - 1; j > i; j--) {
+      counter++;
       var cmp1string = this.compObjects[i].contentsString;
       var cmp2string = this.compObjects[j].contentsString;
       if (cmp1string == cmp2string) {
@@ -55,18 +75,31 @@ CompMerger.prototype.consolidateComps = function() {
           this.replaceComp(this.compObjects[j].comp, this.compObjects[i].comp);
           this.compObjects[j].inUse = 0;
         }
-
+        pd.results.consolidatedComps++;
       }
+      pb.setProgress(counter);
+      pb.setDescription(counter + ' of ' + itmCount + ' comps processed.');
+
     }
   }
 };
 
 CompMerger.prototype.removeUnusedComps = function() {
+
+  var counter = 0;
+  var itmCount = this.compObjects.length;
+  var pb = new DcProgressBar(scriptData.scriptName,
+    'Cleaning Up Consolidated Comps', 0, itmCount);
+
   for (var i = this.compObjects.length - 1; i >= 0; i--) {
     var cmp = this.compObjects[i];
     if (!cmp.inUse) {
       cmp.comp.remove();
+      pd.results.removedItems++;
     }
+    pb.setProgress(counter);
+    pb.setDescription('Checking for unused comps. ' + (itmCount - counter) +
+      ' comps remaining.');
   }
 
 };
